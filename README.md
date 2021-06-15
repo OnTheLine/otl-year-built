@@ -41,7 +41,7 @@ See individual parcel public database https://gis.vgsi.com/westhartfordct/
   - [dissolve] Dissolved 20,042 features into 19,865 features
 - Upload only unnamed GeoJSON, export CSV, and join in decadebuilt field. About 20 rows are empty and must be ignored.
 - -merge-layers target=WH-Parcel-decadebuilt,WH-Condo-decadebuilt,WH-unnamed-decadebuilt
-- simplified 100MB fullsize GeoJSON down to 11MB (at 0.5% level, which you think would be even smaller, but it's not)
+- simplified 100MB fullsize GeoJSON down 50% (large, 50MB) in order to upload to GitHub, and simplified at 0.5% (simplified, 11MB) 11MB, which you think would be even smaller, but it's not
 - -split decadebuilt (to produce one GeoJSON file for each decade/century)
 - downloaded WH-yearbuilt.csv and created pivot table to show results
 
