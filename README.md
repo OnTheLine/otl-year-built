@@ -8,12 +8,20 @@ Processed in https://Mapshaper.org by Jack Dougherty to clean parcels and create
 
 ![screenshot](wh-screenshot.png)
 
+## TODO Improve the interactive map
+- model is based on https://github.com/ontheline/otl-racial-change, but needs revisions
+- when users click thru decades, prior decades of parcels should remain on the map (in black or gray), and the new parcel for the current decade should stand out (in red?). What do you recommend, and can you fix script.js accordingly?
+- I set up data by decadebuilt, where "1900" means 1900-1909. In index.html, I listed geojson layers as "1900s" (small s) but they appear as "1900S" (large S). Is there an easy fix? If not, then I may need to redo some Mapshaper work in order to re-split the data by its endpoint (so that a decade ends in 1909 or 1910).
+- Should we add a "hover" function so that users can find siteaddres and yearbuilt for any polygon? If so, please fix script.js because I cannot figure out the correct props
+- in style.css, do you recommend setting the map height in pixels, or 100%?
+- in style.css, please fix line-spacing of the title and subtitle
+
 ## Notes
 Note that "yearbuilt" means "most recent year built for this parcel" because this present-day database does not record when a building was first erected on a site (e.g. 1910), then torn down and rebuilt (e.g. 1970). Only the most recent date is stored in this database (e.g. 1970).
 
-Also, "yearbuilt" data missing for about 600 out of 20,000 parcels (3%).
+Note that "decadebuilt" for "1900s" means 1900-1909, "1910s" means 1910-1919, etc. "Pre1900" means all years before 1900.
 
-Note that "decadebuilt" is based on "yearbuilt" and only lists decades for 1900 onward. Prior years are coded into three periods: 1700, 1800, 1850.
+Also, "yearbuilt" data missing for about 600 out of 20,000 parcels (3%), which are included in a separate file `no-year-built.geojson` but not shown here.
 
 GIS_Area is measured in acres (eg. 4 Frederick Road = 0.16 acres)
 
@@ -91,6 +99,3 @@ See individual parcel public database https://gis.vgsi.com/westhartfordct/
 | Total                | 12517 | 100%    |
 
 Acres based on sum of GIS_Area
-
-#TODO
-create interactive map
