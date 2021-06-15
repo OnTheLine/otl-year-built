@@ -1,6 +1,9 @@
 # otl-year-built
 Leaflet map of parcels by year/decade/century built to display history of property development in West Hartford CT, for https://OnTheLine.trincoll.edu
 
+## live version
+https://ontheline.github.io/otl-year-built
+
 ## Source
 Town of West Hartford and AppGeo, June 2021, from jared.morin@westhartfordct.gov and Rebecca Talamini (spatialiqsupport@appgeo.com)
 
