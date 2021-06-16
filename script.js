@@ -1,21 +1,60 @@
 $(document).ready(function() {
 
-  // Edit the initial year and number of tabs to match your GeoJSON data and tabs in index.html
-  var tabs = 13;
-  var choroplethLayer;
-  var choroplethOpacity = 1;
+  const layers = [
+    {name: 'pre1900', path: 'geojson/pre1900.geojson', layer: null},
+    {name: '1900s', path: 'geojson/1900s.geojson', layer: null},
+    {name: '1910s', path: 'geojson/1910s.geojson', layer: null},
+    {name: '1920s', path: 'geojson/1920s.geojson', layer: null},
+    {name: '1930s', path: 'geojson/1930s.geojson', layer: null},
+    {name: '1940s', path: 'geojson/1940s.geojson', layer: null},
+    {name: '1950s', path: 'geojson/1950s.geojson', layer: null},
+    {name: '1960s', path: 'geojson/1960s.geojson', layer: null},
+    {name: '1970s', path: 'geojson/1970s.geojson', layer: null},
+    {name: '1980s', path: 'geojson/1980s.geojson', layer: null},
+    {name: '1990s', path: 'geojson/1990s.geojson', layer: null},
+    {name: '2000s', path: 'geojson/2000s.geojson', layer: null},
+    {name: '2010s', path: 'geojson/2010s.geojson', layer: null},
+  ];
+
+  // From layers, calculate how many tabs
+  const tabs = layers.length;
+
+  // For each layer defined above, generate a tab and load the geojson
+  for (var i = 0; i < tabs; i++) {
+
+    // Create a tab and append above the map
+    $('.tabBar').append('<div num="' + i + '" class="tabItem">' + layers[i].name + '</div>');
+
+    // Read the geojson file and generate a Leaflet layer
+    (function(i) {
+      $.getJSON(layers[i].path, function(data) {
+        layers[i].layer = L.geoJson(data, {
+          style: styleGray,
+          onEachFeature: function(feature, layer) {
+
+            // Add a popup with address and year built
+            layer.bindPopup(feature.properties.siteaddres +
+                '<br>Built in ' + feature.properties.yearbuilt)
+          }
+        })
+
+        // As soon as the first tab is loaded, activate it
+        if (i === 0) { $('.tabItem[num="0"]').click() }
+      })
+    })(i)
+  }
 
   // Edit the center point and zoom level
   var map = L.map('map', {
-    center: [41.76206605316627, -72.74202875269116],
-    zoom: 12,
+    center: [41.76206, -72.74203],
+    zoom: 13,
     scrollWheelZoom: false,
     keyboard: false,
   });
 
   // Edit links to your GitHub repo and data source credit
   map.attributionControl
-  .setPrefix('View <a href="https://github.com/ontheline/otl-year-built" target="_blank">data and code on GitHub</a>, created with <a href="http://leafletjs.com" title="A JS library for interactive maps">Leaflet</a>; design by <a href="http://ctmirror.org">CT Mirror</a>');
+    .setPrefix('View <a href="https://github.com/ontheline/otl-year-built" target="_blank">data and code on GitHub</a>, created with <a href="http://leafletjs.com" title="A JS library for interactive maps">Leaflet</a>; design by <a href="http://ctmirror.org">CT Mirror</a>');
 
   // Basemap CartoDB layer with labels
   L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
@@ -24,118 +63,77 @@ $(document).ready(function() {
     <a href="http://cartodb.com/attributions">CartoDB</a>'
   }).addTo(map);
 
+  // Add scale to the bottom-right
   L.control.scale().addTo(map);
 
-  resetChoropleth('pre1900');
-
-  function style(feature) {
-    return {
-      fillColor: 'black',
-      weight: 0.5,
-      opacity: 1,
-      color: 'black',
-      fillOpacity: 0.7
-    };
+  // Define a style for gray 
+  const styleGray = {
+    fillColor: '#222',
+    weight: 0,
+    opacity: 0.8,
+    color: '#222',
+    fillOpacity: 0.8
   }
 
-  // This highlights the polygon on hover, also for mobile
-  function highlightFeature(e) {
-    resetHighlight(e);
-    var layer = e.target;
-    layer.setStyle({
-      weight: 4,
-      color: 'black',
-      fillOpacity: 0.7
-    });
-    info.update(layer.feature.properties);
+  const styleRed = {
+    fillColor: 'red',
+    weight: 0,
+    opacity: 0.8,
+    color: 'red',
+    fillOpacity: 0.8
   }
 
-  // This resets the highlight after hover moves away
-  function resetHighlight(e) {
-    choroplethLayer.setStyle(style);
-    info.update();
-  }
+  // Given a tab number `num`, show all geojsons for and before the tab,
+  // and hide all after that tab
+  const setChoropleth = function(num) {
 
-  // This instructs highlight and reset functions on hover movement
-  function onEachFeature(feature, layer) {
-    layer.on({
-      mouseover: highlightFeature,
-      mouseout: resetHighlight,
-      click: highlightFeature
-    });
-  }
+    for (var i = 0; i < tabs; i++) {
+      var l = layers[i].layer;
 
-  // Creates an info box on the map
-  var info = L.control();
-  info.onAdd = function (map) {
-      this._div = L.DomUtil.create('div', 'info');
-      this.update();
-      return this._div;
-  };
+      if (i < num && !map.hasLayer(l)) {
+        map.addLayer(l);
+      }
+      else if (i === num && !map.hasLayer(l)) {
+        map.addLayer(l);
+      }
+      else if ((i > num) && map.hasLayer(l)) {
+        map.removeLayer(l);
+      }
 
-  // Edit info box labels (such as props.town) to match properties of the GeoJSON data
-  // info.update = function (props) {
-  //   var winName =
-  //   this._div.innerHTML += '<p>' + props.siteaddres + '</p>';
-  //   this._div.innerHTML += '<p>' + props.yearbuilt + '</p>';
-  // };
-  // info.addTo(map);
-
-  function resetChoropleth(year) {
-    if (choroplethLayer && map.hasLayer(choroplethLayer)) {
-      map.removeLayer(choroplethLayer);
+      l.setStyle( i === num ? styleRed : styleGray )
     }
-
-    $.getJSON("geojson/" + year + ".geojson", function (data) {
-      choroplethLayer = L.geoJson(data, {
-        style: style,
-        onEachFeature: onEachFeature
-      }).addTo(map);
-
-      // Keep town boundaries on top
-      // if (map.hasLayer(townBoundariesLayer)) {
-      //   townBoundariesLayer.bringToFront();
-      // }
-    });
   }
+
 
   // When a new tab is selected, this removes/adds the GeoJSON data layers
   $(".tabItem").click(function() {
 
+    // Paint active tab in red
     $(".tabItem").removeClass("selected");
     $(this).addClass("selected");
 
-    resetChoropleth( $(this).html() );
+    setChoropleth( parseInt($(this).attr('num')) );
 
     // Manually trigger "moveend" so that hash updates, without really moving
     map.setZoom(map.getZoom());
   });
 
-  // In info.update, this checks if GeoJSON data contains a null value, and if so displays "--"
-  function checkNull(val) {
-    if (val != null || val == "NaN") {
-      return comma(val);
-    } else {
-      return "--";
-    }
-  }
-
 
   // This watches for arrow keys to advance the tabs
   $("body").keydown(function(e) {
-      var selectedTab = parseInt($(".selected").attr('id').replace('tab', ''));
+      var selectedTab = parseInt($(".selected").attr('num'));
       var nextTab;
 
       // previous tab with left arrow
       if (e.keyCode == 37) {
-          nextTab = (selectedTab == 1) ? tabs : selectedTab - 1;
+          nextTab = (selectedTab == 0) ? tabs-1 : selectedTab - 1;
       }
       // next tab with right arrow
       else if (e.keyCode == 39)  {
-          nextTab = (selectedTab == tabs) ? 1 : selectedTab + 1;
+          nextTab = (selectedTab == tabs-1) ? 0 : selectedTab + 1;
       }
 
-      $('#tab' + nextTab).click();
+      $('.tabItem[num="' + nextTab + '"').click();
   });
 
 });
