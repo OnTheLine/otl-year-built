@@ -54,7 +54,7 @@ $(document).ready(function() {
 
   // Edit links to your GitHub repo and data source credit
   map.attributionControl
-    .setPrefix('View <a href="https://github.com/ontheline/otl-year-built" target="_blank">data and code on GitHub</a>, created with <a href="http://leafletjs.com" title="A JS library for interactive maps">Leaflet</a>; design by <a href="http://ctmirror.org">CT Mirror</a>');
+    .setPrefix('View <a href="https://github.com/ontheline/otl-year-built" target="_blank">data and code on GitHub</a>, created with <a href="http://leafletjs.com" title="A JS library for interactive maps">Leaflet</a>');
 
   // Basemap CartoDB layer with labels
   L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
@@ -114,7 +114,7 @@ $(document).ready(function() {
         else if ((i > num) && map.hasLayer(l)) {
           map.removeLayer(l);
         }
-  
+
         l.setStyle( i === num ? stylePresent : stylePast )
       }
     }
