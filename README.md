@@ -2,26 +2,24 @@
 Leaflet map of parcels by year/decade/century built to display history of property development in West Hartford CT, for https://OnTheLine.trincoll.edu
 
 ## Live map
-https://ontheline.github.io/otl-year-built
+https://ontheline.github.io/otl-year-built/index-caption.html
 
 ## Credits
 Interactive map developed by Jack Dougherty and Ilya Ilyankou / Picturedigits for On The Line, http://OnTheLine.trincoll.edu, Trinity College, Hartford CT
 
 ## Source Data and Notes
-Shapefiles provided by Town of West Hartford and AppGeo, June 2021. Thanks Jared Morin (jared.morin@westhartfordct.gov) and Rebecca Talamini (spatialiqsupport@appgeo.com). See public database of individual parcel data for West Hartford: https://gis.vgsi.com/westhartfordct/
+Shapefiles with parcel identifiers and year-built data provided by Town of West Hartford and AppGeo in June 2021 from the Online Assessment Database https://gis.vgsi.com/westhartfordct/. Thanks to Jared Morin (jared.morin@westhartfordct.gov) and Rebecca Talamini (spatialiqsupport@appgeo.com).
 
-Note that "yearbuilt" means "most recent year built for this parcel" because this present-day database does not record when a building was first erected on a site (e.g. 1910), then torn down and rebuilt (e.g. 1970). Only the most recent date is stored in this database (e.g. 1970).
+Note that "yearbuilt" means "most recent year of construction recorded for this parcel" because this present-day assessment database was not designed to be a complete historical record of all property development. For example, it does not record when a building was first erected on a property (e.g. 1910), then torn down  (e.g. 1970), because only the most recent date of construction is stored (e.g. 1970). Also, "yearbuilt" data missing for about 600 out of nearly 20,000 parcels (3%), which are included in a separate file `no-year-built.geojson` but not displayed in the interactive map.
 
-Note that "decadebuilt" for "1900s" means 1900-1909, "1910s" means 1910-1919, etc. "Pre1900" means all years before 1900.
-
-Also, "yearbuilt" data missing for about 600 out of 20,000 parcels (3%), which are included in a separate file `no-year-built.geojson` but not displayed in the interactive map.
+Based on "yearbuilt", we added a new field named "decadebuilt" where "1900s" means 1900-1909, "1910s" means 1910-1919, etc. "Pre1900" means all years before 1900.
 
 GIS_Area is measured in acres (eg. 4 Frederick Road = 0.16 acres)
 
 ![screenshot](wh-screenshot.png)
 
 ## Data Cleaning and GeoJSON Conversion
-Shapefiles processed by Jack Dougherty in https://Mapshaper.org to clean duplicates (condos and other units on same parcel with same or similar street address), create `decadebuilt` column, and to convert to GeoJSON files
+Shapefiles processed by Jack Dougherty in https://Mapshaper.org to clean duplicates (condos and other units on same parcel with same or similar street address), create `decadebuilt` column, and to convert to GeoJSON files.
 
 - Uploaded shapefiles.zip to Mapshaper.org
 - ignore 23 line intersections
