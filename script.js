@@ -80,7 +80,7 @@ $(document).ready(function() {
   // Add scale to the bottom-right
   L.control.scale().addTo(map);
 
-  // Define styles for past & present decades and match with index.html and style.css
+  // Define styles for past and present decades
   const stylePast = {
     fillColor: '#222',
     weight: 0,
