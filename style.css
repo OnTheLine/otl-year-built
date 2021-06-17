@@ -47,16 +47,16 @@ In this example, width = 100% divided by 13 = 7.6% */
     border-right: 1px solid #aaa;
 }
 .tabItem:hover {
-    color: #E34B4B;
+    color: blue;
 }
 .tabItem.selected {
-    color: maroon;
+    color: blue;
     background: #eee;
     box-shadow: inset 1px 1px 7px -2px #555;
     color: white !important;
     font-weight: 400;
-    border: 1px solid #E34B4B !important;
-    background: #E34B4B !important;
+    border: 1px solid blue !important;
+    background: blue !important;
     pointer-events: none;
 }
 /*Edit width of info box */
@@ -125,4 +125,14 @@ header {
 
 .leaflet-interactive:hover {
   opacity: 0.7;
+}
+
+/* Color line in subtitle: match with colors in script.js */
+.bg-blue { background: blue; }
+.bg-gray { background: #222; }
+.color-line {
+  display: inline-block;
+  vertical-align: middle;
+  height: 15px;
+  width: 30px;
 }

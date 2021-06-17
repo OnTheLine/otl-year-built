@@ -29,7 +29,7 @@ $(document).ready(function() {
     (function(i) {
       $.getJSON(layers[i].path, function(data) {
         layers[i].layer = L.geoJson(data, {
-          style: styleGray,
+          style: stylePast,
           onEachFeature: function(feature, layer) {
 
             // Add a popup with address and year built
@@ -63,11 +63,25 @@ $(document).ready(function() {
     <a href="http://cartodb.com/attributions">CartoDB</a>'
   }).addTo(map);
 
+  // Add West Hartford town boundary
+  $.getJSON("geojson/westhartford.geojson", function (data){
+  var geoJsonLayer = L.geoJson(data, {
+    style: function (feature) {
+      return {
+        'color': 'black',
+        'weight': 0.5,
+        'fillOpacity': 0,
+      }
+    }
+  }).addTo(map);
+  });
+
+
   // Add scale to the bottom-right
   L.control.scale().addTo(map);
 
-  // Define a style for gray 
-  const styleGray = {
+  // Define styles for past & present decades and match with index.html and style.css
+  const stylePast = {
     fillColor: '#222',
     weight: 0,
     opacity: 0.8,
@@ -75,11 +89,11 @@ $(document).ready(function() {
     fillOpacity: 0.8
   }
 
-  const styleRed = {
-    fillColor: 'red',
+  const stylePresent = {
+    fillColor: 'blue',
     weight: 0,
     opacity: 0.8,
-    color: 'red',
+    color: 'blue',
     fillOpacity: 0.8
   }
 
@@ -100,7 +114,7 @@ $(document).ready(function() {
         map.removeLayer(l);
       }
 
-      l.setStyle( i === num ? styleRed : styleGray )
+      l.setStyle( i === num ? stylePresent : stylePast )
     }
   }
 
@@ -135,5 +149,16 @@ $(document).ready(function() {
 
       $('.tabItem[num="' + nextTab + '"').click();
   });
+
+  // add custom legend https://www.figma.com/file/7JitgyYxiT3xR3fyoZttKb/otl-zoning-graphics
+  var legend = L.control({position: 'bottomright'});
+
+  legend.onAdd = function(map) {
+    var div = L.DomUtil.create('div', 'info legend');
+    div.innerHTML += '<img src="./otl-year-built-legend.png" alt="Year Built Legend" width="200">';
+    return div;
+  };
+
+  legend.addTo(map);
 
 });

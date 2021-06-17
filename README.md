@@ -1,36 +1,28 @@
 # otl-year-built
 Leaflet map of parcels by year/decade/century built to display history of property development in West Hartford CT, for https://OnTheLine.trincoll.edu
 
-## live version
+## Live map
 https://ontheline.github.io/otl-year-built
 
-## Source
-Town of West Hartford and AppGeo, June 2021, from jared.morin@westhartfordct.gov and Rebecca Talamini (spatialiqsupport@appgeo.com)
+## Credits
+Interactive map developed by Jack Dougherty and Ilya Ilyankou / Picturedigits for On The Line, http://OnTheLine.trincoll.edu, Trinity College, Hartford CT
 
-Processed in https://Mapshaper.org by Jack Dougherty to clean parcels and create decadebuilt column
+## Source Data and Notes
+Shapefiles provided by Town of West Hartford and AppGeo, June 2021. Thanks Jared Morin (jared.morin@westhartfordct.gov) and Rebecca Talamini (spatialiqsupport@appgeo.com). See public database of individual parcel data for West Hartford: https://gis.vgsi.com/westhartfordct/
 
-![screenshot](wh-screenshot.png)
-
-## TODO Improve the interactive map
-- model is based on https://github.com/ontheline/otl-racial-change, but needs revisions
-- when users click thru decades, prior decades of parcels should remain on the map (in black or gray), and the new parcel for the current decade should stand out (in red?). What do you recommend, and can you fix script.js accordingly?
-- I set up data by decadebuilt, where "1900" means 1900-1909. In index.html, I listed geojson layers as "1900s" (small s) but they appear as "1900S" (large S). Is there an easy fix? If not, then I may need to redo some Mapshaper work in order to re-split the data by its endpoint (so that a decade ends in 1909 or 1910).
-- Should we add a "hover" function so that users can find siteaddres and yearbuilt for any polygon? If so, please fix script.js because I cannot figure out the correct props
-- in style.css, do you recommend setting the map height in pixels, or 100%?
-- in style.css, please fix line-spacing of the title and subtitle
-
-## Notes
 Note that "yearbuilt" means "most recent year built for this parcel" because this present-day database does not record when a building was first erected on a site (e.g. 1910), then torn down and rebuilt (e.g. 1970). Only the most recent date is stored in this database (e.g. 1970).
 
 Note that "decadebuilt" for "1900s" means 1900-1909, "1910s" means 1910-1919, etc. "Pre1900" means all years before 1900.
 
-Also, "yearbuilt" data missing for about 600 out of 20,000 parcels (3%), which are included in a separate file `no-year-built.geojson` but not shown here.
+Also, "yearbuilt" data missing for about 600 out of 20,000 parcels (3%), which are included in a separate file `no-year-built.geojson` but not displayed in the interactive map.
 
 GIS_Area is measured in acres (eg. 4 Frederick Road = 0.16 acres)
 
-See individual parcel public database https://gis.vgsi.com/westhartfordct/
+![screenshot](wh-screenshot.png)
 
-## Steps to create GeoJSON and CSV files
+## Data Cleaning and GeoJSON Conversion
+Shapefiles processed by Jack Dougherty in https://Mapshaper.org to clean duplicates (condos and other units on same parcel with same or similar street address), create `decadebuilt` column, and to convert to GeoJSON files
+
 - Uploaded shapefiles.zip to Mapshaper.org
 - ignore 23 line intersections
 - console: -proj wgs84
@@ -38,9 +30,9 @@ See individual parcel public database https://gis.vgsi.com/westhartfordct/
   - 20,042 Parcel
   - 2,387 Condo Main
   - 22 unnamed
-  - 1 Water
-  - 1 Private ROW
-  - 1 Paper Street
+  - 1 Water (ignore)
+  - 1 Private ROW (ignore)
+  - 1 Paper Street (ignore)
 - Export into separate geojson files
 - Also, export Condo Main into CSV and create pivot table by ParcelID and yearbuilt. Note that 56 features have multiple entries (units on same lot) but same ParcelID and same GIS_Area (where each condo is listed as the entire property lot, so needed to eliminate duplicates)
 - Upload only the Condo predissolved geojson file, where multiple condos have same ParcelID (but slightly different addresses), and use console to dissolve but "copy" (aka keep) first instance of selected fields into the dissolved feature.
