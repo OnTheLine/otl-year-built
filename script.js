@@ -64,16 +64,17 @@ $(document).ready(function() {
   }).addTo(map);
 
   // Add West Hartford town boundary
-  $.getJSON("geojson/westhartford.geojson", function (data){
-  var geoJsonLayer = L.geoJson(data, {
-    style: function (feature) {
-      return {
-        'color': 'black',
-        'weight': 0.5,
-        'fillOpacity': 0,
+  $.getJSON("geojson/westhartford.geojson", function (data) {
+    L.geoJson(data, {
+      interactive: false,
+      style: function (feature) {
+        return {
+          'color': 'black',
+          'weight': 0.5,
+          'fillOpacity': 0,
+        }
       }
-    }
-  }).addTo(map);
+    }).addTo(map);
   });
 
 
@@ -103,18 +104,19 @@ $(document).ready(function() {
 
     for (var i = 0; i < tabs; i++) {
       var l = layers[i].layer;
-
-      if (i < num && !map.hasLayer(l)) {
-        map.addLayer(l);
+      if (l) {
+        if (i < num && !map.hasLayer(l)) {
+          map.addLayer(l);
+        }
+        else if (i === num && !map.hasLayer(l)) {
+          map.addLayer(l);
+        }
+        else if ((i > num) && map.hasLayer(l)) {
+          map.removeLayer(l);
+        }
+  
+        l.setStyle( i === num ? stylePresent : stylePast )
       }
-      else if (i === num && !map.hasLayer(l)) {
-        map.addLayer(l);
-      }
-      else if ((i > num) && map.hasLayer(l)) {
-        map.removeLayer(l);
-      }
-
-      l.setStyle( i === num ? stylePresent : stylePast )
     }
   }
 
@@ -154,7 +156,7 @@ $(document).ready(function() {
   var legend = L.control({position: 'bottomright'});
 
   legend.onAdd = function(map) {
-    var div = L.DomUtil.create('div', 'info legend');
+    var div = L.DomUtil.create('div', 'legend');
     div.innerHTML += '<img src="./otl-year-built-legend.png" alt="Year Built Legend" width="200">';
     return div;
   };
