@@ -92,3 +92,6 @@ Shapefiles processed by Jack Dougherty in https://Mapshaper.org to clean duplica
 | Total                | 12517 | 100%    |
 
 Acres based on sum of GIS_Area
+
+## HamdenParcels folder
+Data provided by Andrew Kinlock, Town of Hamden GIS coordinator, Feb 2024 
