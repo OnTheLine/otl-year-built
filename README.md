@@ -111,6 +111,8 @@ Acres based on sum of GIS_Area
 - split decadebuilt (to produce one GeoJSON file for each decade) and exported separate geojson files, except the "null" file with no decadebuilt data. Largest file was 1950s at 1.9MB
 - note how named Hamden decadebuilt and filenames differently (plural pre1900s) than WestHartford (singular pre1900)
 
+## Hamden results 
+
 Hamden Parcels (where yearbuilt does not equal zero)
 | DecadeBuilt | Grand Total | Residential | Pct Res Tot |
 |-------------|-------------|-------------|-------------|
