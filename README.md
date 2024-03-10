@@ -1,13 +1,16 @@
 # otl-year-built
-Leaflet map of parcels by year/decade/century built to display history of property development in West Hartford CT, for https://OnTheLine.trincoll.edu
+Leaflet map of parcels by decade built to display history of property development in West Hartford CT and Hamden CT, for https://OnTheLine.trincoll.edu
 
-## Live map
+## West Hartford map
 https://ontheline.github.io/otl-year-built/index-caption.html
+
+## Hamden map
+https://ontheline.github.io/otl-year-built/hamden/index-caption.html
 
 ## Credits
 Interactive map developed by Jack Dougherty and Ilya Ilyankou / Picturedigits for On The Line, http://OnTheLine.trincoll.edu, Trinity College, Hartford CT
 
-## Source Data and Notes
+## West Hartford Data and Notes
 Shapefiles with parcel identifiers and year-built data provided by Town of West Hartford and AppGeo in June 2021 from the Online Assessment Database https://gis.vgsi.com/westhartfordct/. Thanks to Jared Morin (jared.morin@westhartfordct.gov) and Rebecca Talamini (spatialiqsupport@appgeo.com).
 
 Note that "yearbuilt" means "most recent year of construction recorded for this parcel" because this present-day assessment database was not designed to be a complete historical record of all property development. For example, it does not record when a building was first erected on a property (e.g. 1910), then torn down  (e.g. 1970), because only the most recent date of construction is stored (e.g. 1970). Also, "yearbuilt" data missing for about 600 out of nearly 20,000 parcels (3%), which are included in a separate file `no-year-built.geojson` but not displayed in the interactive map. Only properties that currently exist are shown in this present-day assessment database.
@@ -18,7 +21,7 @@ GIS_Area is measured in acres (eg. 4 Frederick Road = 0.16 acres)
 
 ![screenshot](wh-screenshot.png)
 
-## Data Cleaning and GeoJSON Conversion
+## West Hartford Data Cleaning and GeoJSON Conversion
 Shapefiles processed by Jack Dougherty in https://Mapshaper.org to clean duplicates (condos and other units on same parcel with same or similar street address), create `decadebuilt` column, and to convert to GeoJSON files.
 
 - Uploaded shapefiles.zip to Mapshaper.org
@@ -46,7 +49,7 @@ Shapefiles processed by Jack Dougherty in https://Mapshaper.org to clean duplica
 - -split decadebuilt (to produce one GeoJSON file for each decade/century)
 - downloaded WH-yearbuilt.csv and created pivot table to show results
 
-## Results
+## West Hartford Results
 
 | Decade-Century Built | Count | Percent |
 |----------------------|-------|---------|
@@ -93,5 +96,35 @@ Shapefiles processed by Jack Dougherty in https://Mapshaper.org to clean duplica
 
 Acres based on sum of GIS_Area
 
-## HamdenParcels folder
-Data provided by Andrew Kinlock, Town of Hamden GIS coordinator, Feb 2024 
+## Hamden data and cleaning
+- Data provided by Andrew Kinlock, Town of Hamden GIS coordinator, Feb 2024
+- created decadebuilt column in Excel
+- removed about 20 rows from SRCOG_LU
+  - Open Space
+  - Other (golf course, cemetery, etc)
+- confirmed UniqueID for each parcel, no duplicates, so simpler than WH data
+- upload original hamden-parcels.geojson to Mapshaper.org, ignore Check Line Intersections, but BEFORE IMPORT in the box declare string-fields=id (to convert numerical id to string id to match column type inside geojson)
+- join data keys=id,id
+  - [join] Joined data from 15,605 source records to 15,605 target records
+  - [join] 1149 target records received no data
+- exported copy of hamden-parcels-largejoin.geojson as backup, then simplified 13MB file down to 21 percent, now 9MB (you think it would be smaller, but no)
+- split decadebuilt (to produce one GeoJSON file for each decade) and exported separate geojson files, except the "null" file with no decadebuilt data. Largest file was 1950s at 1.9MB
+- note how named Hamden decadebuilt and filenames differently (plural pre1900s) than WestHartford (singular pre1900)
+
+Hamden Parcels (where yearbuilt does not equal zero)
+| DecadeBuilt | Grand Total | Residential | Pct Res Tot |
+|-------------|-------------|-------------|-------------|
+| pre1900s    | 259         | 224         | 2%          |
+| 1900s       | 216         | 177         | 1%          |
+| 1910s       | 288         | 266         | 2%          |
+| 1920s       | 2215        | 2090        | 14%         |
+| 1930s       | 1468        | 1403        | 10%         |
+| 1940s       | 2369        | 2297        | 16%         |
+| 1950s       | 3662        | 3522        | 24%         |
+| 1960s       | 1856        | 1739        | 12%         |
+| 1970s       | 1034        | 957         | 6%          |
+| 1980s       | 1068        | 997         | 7%          |
+| 1990s       | 670         | 624         | 4%          |
+| 2000s       | 457         | 406         | 3%          |
+| 2010s       | 64          | 39          | 0%          |
+| Grand Total | 15626       | 14741       | 100%        |

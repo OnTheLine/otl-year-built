@@ -1,0 +1,104 @@
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+.interactiveContainer {
+  width: 100vw;
+  height: 100vh;
+  font-family: Arial, sans-serif;
+}
+/* Edit height to display full map: 500px */
+#map {
+  width: 100vw;
+  height: calc(100vh - 96px);
+  margin: 0;
+  padding: 0;
+}
+
+.tabBar {
+  font: 14px/16px Arial, Helvetica, sans-serif;
+  height: 30px;
+}
+/* Edit width based on number of tabs to display
+In this example, width = 100% divided by 13 = 7.6% */
+.tabItem {
+    width: 7.6%;
+    padding: 2px 0px 2px 0px;
+    float: left;
+    margin-left: -1px;
+    border: #aaa solid 1px;
+    border-right: none;
+    cursor: pointer;
+    text-align: center;
+    font-size: 15px;
+    font-weight: normal;
+    color: #ccc;
+}
+.tabItem:first-child {
+    border-radius: 7px 0px 0 7px;
+    border-top-left-radius: 2px;
+    border-bottom-left-radius: 2px;
+}
+.tabItem:last-child {
+    border-radius: 0px 7px 7px 0px;
+    border-top-right-radius: 2px;
+    border-bottom-right-radius: 2px;
+    border-right: 1px solid #aaa;
+}
+.tabItem:hover {
+    color: blue;
+}
+.tabItem.selected {
+    color: blue;
+    background: #eee;
+    box-shadow: inset 1px 1px 7px -2px #555;
+    color: white !important;
+    font-weight: 400;
+    border: 1px solid blue !important;
+    background: blue !important;
+    pointer-events: none;
+}
+.areaName {
+    font-size: 17px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+.faded {
+    opacity: 0.4;
+}
+.areaLabel {
+    float: left;
+    width: 100%;
+    font-family: Arial, sans-serif;
+}
+.areaValue {
+    float: left;
+    width: 70%;
+    font-size: 14px;
+    font-family: Arial, sans-serif;
+}
+/*Edit width of legend*/
+.legend {
+    width: 200px;
+    position: absolute;
+    right: 0px;
+    bottom: 10px;
+}
+
+h3 {
+  margin: 4px 0;
+}
+
+header > p {
+  margin: 4px 0;
+}
+
+header {
+  padding: 8px;
+  height: 80px !important;
+}
+
+.leaflet-interactive:hover {
+  opacity: 0.7;
+}
